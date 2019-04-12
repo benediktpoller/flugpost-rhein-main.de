@@ -1,9 +1,3 @@
-/*!
- * Start Bootstrap - Coming Soon v5.0.4 (https://startbootstrap.com/template-overviews/coming-soon)
- * Copyright 2013-2019 Start Bootstrap
- * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-coming-soon/blob/master/LICENSE)
- */
-
 html {
   height: 100%;
 }
@@ -44,7 +38,7 @@ video {
 
 @media (pointer: coarse) and (hover: none) {
   body {
-    background: url("../img/bg-mobile-fallback.jpg") #002E66 no-repeat center center scroll;
+    background: url("../img/schwaben.jpg") #002E66 no-repeat center center scroll;
     background-size: cover;
   }
   body video {
