@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6112e3f-20f6-40d2-890b-f33ca1f3cb50" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/vorgeschichte.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/_includes/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/_includes/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postalischer-hintergrund.html" beforeDir="false" afterPath="$PROJECT_DIR$/postalischer-hintergrund.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vorgeschichte.html" beforeDir="false" afterPath="$PROJECT_DIR$/vorgeschichte.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1569613308200</updated>
-      <workItem from="1569613309935" duration="2122000" />
+      <workItem from="1569613309935" duration="3197000" />
     </task>
     <servers />
   </component>
