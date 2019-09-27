@@ -1,130 +1,149 @@
-"use strict";
+// run the FOLLOWING BEFORE trying to run gulp
+// npm install gulp-cli -g
+// npm install gulp -D
+// npm install
+//
 
-// Load plugins
-const autoprefixer = require("gulp-autoprefixer");
-const browsersync = require("browser-sync").create();
-const cleanCSS = require("gulp-clean-css");
-const del = require("del");
-const gulp = require("gulp");
-const header = require("gulp-header");
-const merge = require("merge-stream");
-const plumber = require("gulp-plumber");
-const rename = require("gulp-rename");
-const sass = require("gulp-sass");
-const uglify = require("gulp-uglify");
+var gulp = require("gulp");
+var browserSync = require("browser-sync").create();
+var sass = require("gulp-sass");
+var prefix = require("gulp-autoprefixer");
+var cp = require("child_process");
+var imagemin = require("gulp-imagemin");
+var concat = require("gulp-concat");
+var cleanCSS = require("gulp-clean-css");
+var rename = require("gulp-rename");
+var uglify = require("gulp-uglify");
+var postcss = require("gulp-postcss");
+var mqpacker = require("css-mqpacker");
+var babel = require("gulp-babel");
 
-// Load package.json for banner
-const pkg = require('./package.json');
+var jekyll = process.platform === "win32" ? "jekyll.bat" : "jekyll";
+var messages = {
+  jekyllBuild: '<span style="color: grey">Running:</span> $ jekyll build',
+};
 
-// Set the banner content
-const banner = ['/*!\n',
-  ' * Start Bootstrap - <%= pkg.title %> v<%= pkg.version %> (<%= pkg.homepage %>)\n',
-  ' * Copyright 2013-' + (new Date()).getFullYear(), ' <%= pkg.author %>\n',
-  ' * Licensed under <%= pkg.license %> (https://github.com/BlackrockDigital/<%= pkg.name %>/blob/master/LICENSE)\n',
-  ' */\n',
-  '\n'
-].join('');
+/**
+ * Build the Jekyll Site
+ */
+gulp.task("jekyll-build", function(done) {
+  browserSync.notify(messages.jekyllBuild);
+  return cp.spawn(jekyll, ["build"], { stdio: "inherit" }).on("close", done);
+});
 
-// BrowserSync
-function browserSync(done) {
-  browsersync.init({
+/**
+ * Rebuild Jekyll & do page reload
+ */
+gulp.task("jekyll-rebuild", ["jekyll-build"], function() {
+  browserSync.reload();
+});
+
+/**
+ * Wait for jekyll-build, then launch the Server
+ */
+gulp.task("browser-sync", ["jekyll-build", "sass", "bundle-js"], function() {
+  browserSync.init({
     server: {
-      baseDir: "./"
+      baseDir: "_site",
     },
-    port: 3000
   });
-  done();
-}
+});
 
-// BrowserSync reload
-function browserSyncReload(done) {
-  browsersync.reload();
-  done();
-}
-
-// Clean vendor
-function clean() {
-  return del(["./vendor/"]);
-}
-
-// Bring third party dependencies from node_modules into vendor directory
-function modules() {
-  // Bootstrap
-  var bootstrap = gulp.src('./node_modules/bootstrap/dist/**/*')
-    .pipe(gulp.dest('./vendor/bootstrap'));
-  // Font Awesome
-  var fontAwesome = gulp.src('./node_modules/@fortawesome/**/*')
-    .pipe(gulp.dest('./vendor'));
-  // jQuery
-  var jquery = gulp.src([
-      './node_modules/jquery/dist/*',
-      '!./node_modules/jquery/dist/core.js'
-    ])
-    .pipe(gulp.dest('./vendor/jquery'));
-  return merge(bootstrap, fontAwesome, jquery);
-}
-
-// CSS task
-function css() {
+/**
+ * Compile files from _scss into both _site/css (for live injecting) and site (for future jekyll builds). Also create minified versions for production use.
+ */
+gulp.task("sass", function() {
   return gulp
-    .src("./scss/**/*.scss")
-    .pipe(plumber())
-    .pipe(sass({
-      outputStyle: "expanded",
-      includePaths: "./node_modules",
-    }))
-    .on("error", sass.logError)
-    .pipe(autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
-    }))
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(gulp.dest("./css"))
-    .pipe(rename({
-      suffix: ".min"
-    }))
-    .pipe(cleanCSS())
-    .pipe(gulp.dest("./css"))
-    .pipe(browsersync.stream());
-}
+    .src("assets/_scss/main.scss")
+    .pipe(
+      sass({
+        includePaths: ["scss"],
+        onError: browserSync.notify,
+      })
+    )
+    .pipe(postcss([mqpacker]))
+    .pipe(
+      prefix(["last 15 versions", "> 5%", "ie 10", "ie 11"], { cascade: true })
+    )
+    .pipe(gulp.dest("_site/assets/css"))
+    .pipe(gulp.dest("assets/css"))
+    .pipe(
+      cleanCSS({
+        compatibility: "ie9",
+        processImportFrom: ["!fonts.googleapis.com"],
+      })
+    )
+    .pipe(rename({ extname: ".min.css" }))
+    .pipe(gulp.dest("_site/assets/css"))
+    .pipe(gulp.dest("assets/css"))
+    .pipe(browserSync.stream());
+});
 
-// JS task
-function js() {
+/**
+ * Watch scss files for changes & recompile
+ * Watch html/md files, run jekyll & reload BrowserSync
+ */
+gulp.task("watch", function() {
+  gulp.watch("assets/_scss/*.scss", ["sass"]);
+  gulp.watch(
+    ["assets/js/**/*.js", "!assets/js/**/*.min.js", "!assets/js/bundle.js"],
+    ["bundle-js"]
+  );
+  gulp.watch(
+    [
+      "*.md",
+      "*.html",
+      "_layouts/*.html",
+      "_includes/*.html",
+      "_posts/*",
+      "_data/*",
+    ],
+    ["jekyll-rebuild"]
+  );
+});
+
+/**
+ * Bundle js files together and then created minified versions and publish them to the correct locations.
+ */
+gulp.task("bundle-js", function() {
   return gulp
-    .src([
-      './js/*.js',
-      '!./js/*.min.js'
-    ])
+    .src(["assets/js/vendor/modernizr-custom.js", "assets/js/main.js"])
+    .pipe(concat("bundle.js"))
+    .pipe(gulp.dest("assets/js"))
+    .pipe(
+      babel({
+        presets: ["env"],
+      })
+    )
     .pipe(uglify())
-    .pipe(header(banner, {
-      pkg: pkg
-    }))
-    .pipe(rename({
-      suffix: '.min'
-    }))
-    .pipe(gulp.dest('./js'))
-    .pipe(browsersync.stream());
-}
+    .pipe(rename({ extname: ".min.js" }))
+    .pipe(gulp.dest("assets/js"))
+    .pipe(browserSync.stream());
+});
 
-// Watch files
-function watchFiles() {
-  gulp.watch("./scss/**/*", css);
-  gulp.watch("./js/**/*", js);
-  gulp.watch("./**/*.html", browserSyncReload);
-}
+// run "gulp images" to process images from assets/_src_img to /img folder to be used on the site
+gulp.task("images", function() {
+  gulp
+    .src([
+      "assets/_src_img/**/*.png",
+      "assets/_src_img/**/*.jpg",
+      "assets/_src_img/**/*.gif",
+      "assets/_src_img/**/*.jpeg",
+      "assets/_src_img/**/*.svg",
+    ])
+    .pipe(
+      imagemin({
+        interlaced: true,
+        progressive: true,
+        optimizationLevel: 5,
+        svgoPlugins: [{ removeViewBox: true }],
+      })
+    )
+    .pipe(gulp.dest("img"));
+});
 
-// Define complex tasks
-const vendor = gulp.series(clean, modules);
-const build = gulp.series(vendor, gulp.parallel(css, js));
-const watch = gulp.series(build, gulp.parallel(watchFiles, browserSync));
-
-// Export tasks
-exports.css = css;
-exports.js = js;
-exports.clean = clean;
-exports.vendor = vendor;
-exports.build = build;
-exports.watch = watch;
-exports.default = build;
+/**
+ * Default task, running just `gulp` will compile the sass,
+ * compile the jekyll site, launch BrowserSync & watch files.
+ */
+gulp.task("default", ["browser-sync", "watch"]);
