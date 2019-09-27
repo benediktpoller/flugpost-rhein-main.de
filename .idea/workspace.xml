@@ -4,10 +4,7 @@
     <list default="true" id="f6112e3f-20f6-40d2-890b-f33ca1f3cb50" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flugpostmarken.html" beforeDir="false" afterPath="$PROJECT_DIR$/flugpostmarken.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/flugzeug-gelber-hund.html" beforeDir="false" afterPath="$PROJECT_DIR$/flugzeug-gelber-hund.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/postalischer-hintergrund.html" beforeDir="false" afterPath="$PROJECT_DIR$/postalischer-hintergrund.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/preisausschreiben.html" beforeDir="false" afterPath="$PROJECT_DIR$/preisausschreiben.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vorbereitung.html" beforeDir="false" afterPath="$PROJECT_DIR$/vorbereitung.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,7 +51,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1569613308200</updated>
-      <workItem from="1569613309935" duration="4025000" />
+      <workItem from="1569613309935" duration="4601000" />
     </task>
     <servers />
   </component>
