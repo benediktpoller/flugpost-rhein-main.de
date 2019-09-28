@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6112e3f-20f6-40d2-890b-f33ca1f3cb50" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/karten.html" beforeDir="false" afterPath="$PROJECT_DIR$/karten.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/postalischer-hintergrund.html" beforeDir="false" afterPath="$PROJECT_DIR$/postalischer-hintergrund.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/flugpostmarken.html" beforeDir="false" afterPath="$PROJECT_DIR$/flugpostmarken.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tarife.html" beforeDir="false" afterPath="$PROJECT_DIR$/tarife.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569613308200</updated>
       <workItem from="1569613309935" duration="8012000" />
-      <workItem from="1569646852036" duration="8477000" />
+      <workItem from="1569646852036" duration="9331000" />
     </task>
     <servers />
   </component>
