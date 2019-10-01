@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="f6112e3f-20f6-40d2-890b-f33ca1f3cb50" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/scss/now-ui-kit/_responsive.scss" beforeDir="false" afterPath="$PROJECT_DIR$/assets/scss/now-ui-kit/_responsive.scss" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -52,7 +51,7 @@
       <updated>1569613308200</updated>
       <workItem from="1569613309935" duration="8012000" />
       <workItem from="1569646852036" duration="10350000" />
-      <workItem from="1569867288407" duration="1308000" />
+      <workItem from="1569867288407" duration="1615000" />
     </task>
     <servers />
   </component>
